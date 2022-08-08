@@ -1,7 +1,9 @@
 from tkinter import messagebox, simpledialog, Tk
-from random import choice
+from random import choice, randrange
 
 #Functions
+
+#Gets the message
 def get_task():
     task = simpledialog.askstring('Task', 'Do you want to encrypt or decrypt?')
     return task
@@ -10,6 +12,7 @@ def get_message():
     message = simpledialog.askstring('Message', 'Enter the secret message:')
     return message
 
+#Swaps the characters
 def is_even(number):
     return number % 2 == 0
 
@@ -39,12 +42,21 @@ def swap_letters(message):
     new_message = ''.join(letter_list)
     return new_message
 
-def character_shifter(message, encrypt, characters):
+#Character shifter
+def character_shifter_encrypt(message, characters):
     returnMessage = ''
-    if encrypt == True:
-        shift = 8
-    else:
-        shift = -8
+    shift = randrange(5, len(characters) - 5)
+    for character in message:
+        if character in characters:
+            position = characters.find(character)
+            newPosition = (position + shift) % len(characters)
+            character = characters[newPosition]
+        returnMessage += character
+    return shift, returnMessage
+
+def character_shifter_decrypt(message, shift, characters):
+    returnMessage = ''
+    shift *= -1
     for character in message:
         if character in characters:
             position = characters.find(character)
@@ -55,24 +67,27 @@ def character_shifter(message, encrypt, characters):
 
 def encrypt(message, characters):
     encrypt1 = swap_letters(message)
-    encrypt2 = character_shifter(encrypt1, True, characters)
+    shift, encrypt2 = character_shifter_encrypt(encrypt1, characters)
     encrypt3_list = []
     for counter in range(0, len(encrypt2)):
         encrypt3_list.append(encrypt2[counter])
         encrypt3_list.append(choice(characters))
     encrypt3 = ''.join(encrypt3_list)
     encrypt4 = ''.join(reversed(encrypt3))
-    print(encrypt4)
-    return encrypt4
+    encrypt5 = f"{encrypt4}{shift:02}"
+    print(encrypt5)
+    return encrypt5
 
 def decrypt(message, characters):
-    decrypt1 = ''.join(reversed(message))
-    decrypt2_list = get_even_letters(decrypt1)
-    decrypt2 = ''.join(decrypt2_list)
-    decrypt3 = character_shifter(decrypt2, False, characters)
-    decrypt4 = swap_letters(decrypt3)
-    print(decrypt4)
-    return decrypt4
+    shift = int(message[-2:])
+    decrypt1 = message[:-2]
+    decrypt2 = ''.join(reversed(decrypt1))
+    decrypt3_list = get_even_letters(decrypt2)
+    decrypt3 = ''.join(decrypt3_list)
+    decrypt4 = character_shifter_decrypt(decrypt3, shift, characters)
+    decrypt5 = swap_letters(decrypt4)
+    print(decrypt5)
+    return decrypt5
 
 
 #Variables
