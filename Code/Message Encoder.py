@@ -52,9 +52,12 @@ def character_shifter_encrypt(message, characters):
             newPosition = (position + shift) % len(characters)
             character = characters[newPosition]
         returnMessage += character
-    return shift, returnMessage
+    returnMessage += str(shift)
+    return returnMessage
 
-def character_shifter_decrypt(message, shift, characters):
+def character_shifter_decrypt(message, characters):
+    shift = int(message[-2:])
+    message = message[:-2]
     returnMessage = ''
     shift *= -1
     for character in message:
@@ -65,33 +68,31 @@ def character_shifter_decrypt(message, shift, characters):
         returnMessage += character
     return returnMessage
 
+#Main(encrypt and decrypt)
 def encrypt(message, characters):
     encrypt1 = swap_letters(message)
-    shift, encrypt2 = character_shifter_encrypt(encrypt1, characters)
+    encrypt2 = character_shifter_encrypt(encrypt1, characters)
     encrypt3_list = []
     for counter in range(0, len(encrypt2)):
         encrypt3_list.append(encrypt2[counter])
         encrypt3_list.append(choice(characters))
     encrypt3 = ''.join(encrypt3_list)
     encrypt4 = ''.join(reversed(encrypt3))
-    encrypt5 = f"{encrypt4}{shift:02}"
-    print(encrypt5)
-    return encrypt5
+    print(encrypt4)
+    return encrypt4
 
 def decrypt(message, characters):
-    shift = int(message[-2:])
-    decrypt1 = message[:-2]
-    decrypt2 = ''.join(reversed(decrypt1))
-    decrypt3_list = get_even_letters(decrypt2)
-    decrypt3 = ''.join(decrypt3_list)
-    decrypt4 = character_shifter_decrypt(decrypt3, shift, characters)
-    decrypt5 = swap_letters(decrypt4)
-    print(decrypt5)
-    return decrypt5
+    decrypt1 = ''.join(reversed(message))
+    decrypt2_list = get_even_letters(decrypt1)
+    decrypt2 = ''.join(decrypt2_list)
+    decrypt3 = character_shifter_decrypt(decrypt2, characters)
+    decrypt4 = swap_letters(decrypt3)
+    print(decrypt4)
+    return decrypt4
 
 
 #Variables
-characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"£$%^&* \()-_=+[]{};:@#~,<.>/?`¬\'|'
+characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"£$%^&* \()-_=+[]{};:@#~,<.>/?¬'|"
 
 #Main code
 root = Tk()
@@ -110,3 +111,4 @@ while True:
     else:
         break
 root.mainloop()
+
