@@ -144,7 +144,7 @@ std::string decrypt(std::string message, std::string characters) {
 
 int main() {
 	std::string characters;
-	characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"£$%^&* \\()-_=+[]{};:@#~,<.>/?¬'|";
+	characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"Â£$%^&* \\()-_=+[]{};:@#~,<.>/?Â¬'|";
 	std::string input = "";
 	std::string choice = "";
 	std::cout << "Do you want to encrypt(e) or decrypt(d)? " << std::flush; std::cin >> choice;
