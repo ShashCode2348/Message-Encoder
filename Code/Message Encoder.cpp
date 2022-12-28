@@ -152,17 +152,17 @@ int main() {
 		std::cout << "Enter the secret message(press ` to complete): " << std::flush; 
 		std::getline(std::cin, input, '`');
 		input.erase(0, 1);
-		std::cout << "Entered secret message: " << input << std::endl;
+		std::cout << "Entered secret message: " << input << std::endl << std::endl;
 		std::string output = encrypt(input, characters);
-		std::cout << "Ciphertext of message is: " << output << std::endl;
+		std::cout << "Ciphertext of message is: " << output << std::endl << std::endl;
 	}
 	else if (choice == "d") {
 		std::cout << "Enter ciphertext of message(press ` to complete): " << std::flush; 
 		std::getline(std::cin, input, '`');
 		input.erase(0, 1);
-		std::cout << "Entered ciphertext: " << input << std::endl;
+		std::cout << "Entered ciphertext: " << input << std::endl << std::endl;
 		std::string output = decrypt(input, characters);
-		std::cout << "Plaintext of message is: " << output << std::endl;
+		std::cout << "Plaintext of message is: " << output << std::endl << std::endl;
 	}
 	else {
 		std::cout << "Valid option was not entered" << std::endl;
