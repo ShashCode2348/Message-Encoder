@@ -153,7 +153,7 @@ int main() {
 		input.erase(0, 1);
 		std::cout << "Entered secret message:" << input << std::endl << std::endl;
 		std::string output = encrypt(input, characters);
-		std::cout << "Ciphertext of message is: " << output << std::endl << std::endl;
+		std::cout << "Ciphertext of message is:" << output << std::endl << std::endl;
 	}
 	else if (choice == "d") {
 		std::cout << "Enter ciphertext of message(press ` to complete):" << std::flush;
