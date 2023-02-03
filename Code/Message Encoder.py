@@ -1,15 +1,14 @@
-from tkinter import messagebox, simpledialog, Tk
 from random import choice, randrange
 
 #Functions
 
 #Gets the message
 def get_task():
-    task = simpledialog.askstring('Task', 'Do you want to encrypt or decrypt?')
+    task = input('Do you want to encrypt or decrypt(e/d)? ')
     return task
 
 def get_message():
-    message = simpledialog.askstring('Message', 'Enter the secret message:')
+    message = inputFull('Enter the message:')
     return message
 
 #Swaps the characters
@@ -57,7 +56,7 @@ def character_shifter_encrypt(message, characters):
 
 def character_shifter_decrypt(message, characters):
     shift = int(message[-2:])
-    message = message[:-2]
+    message.rstrip().rstrip()
     returnMessage = ''
     shift *= -1
     for character in message:
@@ -76,9 +75,9 @@ def encrypt(message, characters):
     for counter in range(0, len(encrypt2)):
         encrypt3_list.append(encrypt2[counter])
         encrypt3_list.append(choice(characters))
+        print(encrypt3_list[-1])
     encrypt3 = ''.join(encrypt3_list)
     encrypt4 = ''.join(reversed(encrypt3))
-    print(encrypt4)
     return encrypt4
 
 def decrypt(message, characters):
@@ -87,28 +86,34 @@ def decrypt(message, characters):
     decrypt2 = ''.join(decrypt2_list)
     decrypt3 = character_shifter_decrypt(decrypt2, characters)
     decrypt4 = swap_letters(decrypt3)
-    print(decrypt4)
     return decrypt4
 
+#Gets the input for more than 1 line of text
+def inputFull(inpText):
+    input_received = True
+    input_string = ""
+    print(inpText, end="")
+    while input_received:
+      new_input = input()
+      if new_input:
+        input_string += (new_input + "\n")
+      else:
+        input_received = False
+    return input_string
 
 #Variables
-characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"£$%^&* \()-_=+[]{};:@#~,<.>/?¬'|"
+characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"£$%^&* \()-_=+[]{};:@#~,<.>/?¬'|\n"
 
 #Main code
-root = Tk()
-
-while True:
-    task = get_task()
-    message = get_message()
-    if task.lower() == 'encrypt':
-        messagebox.showinfo('Message to encrypt is:', message)
-        encrypted = encrypt(message, characters)
-        messagebox.showinfo('Ciphertext of the secret message is:', encrypted)
-    elif task.lower() == 'decrypt':
-        messagebox.showinfo('Message to decrypt is:', message)
-        decrypted = decrypt(message, characters)
-        messagebox.showinfo('Plaintext of the secret message is:', decrypted)
-    else:
-        break
-root.mainloop()
-
+task = get_task()
+message = get_message()
+if task.lower() == 'e':
+    print('Message to encrypt is:', message, "\n")
+    encrypted = encrypt(message, characters)
+    print('Ciphertext of the secret message is:' + encrypted)
+elif task.lower() == 'd':
+    print('Message to decrypt is:', message)
+    decrypted = decrypt(message, characters)
+    print('Plaintext of the secret message is:' + decrypted)
+else:
+    quit()
