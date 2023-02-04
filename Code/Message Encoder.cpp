@@ -62,7 +62,7 @@ int random(int min, int max) {
 
 std::string characterShifterEncrypt(std::string message, std::string characters) {
 	std::string returnMessage;
-	int shift = random(5, size(characters) - 5);
+	int shift = random(1, size(characters) - 1);
 	for (char& character : message) {
 		if (characters.find(character) != std::string::npos || character == ' ') {
 			int position = characters.find(character);
@@ -91,14 +91,14 @@ std::string characterShifterDecrypt(std::string message, std::string characters)
 	}
 	shift *= -1;
 	message.pop_back(); message.pop_back();
-	for (char& character : message) {
-		if (characters.find(character) != std::string::npos || character == ' ') {
+	for (char character : message) {
+		if (characters.find(character) != std::string::npos) {
 			int position = characters.find(character);
-			int newPosition = (position + shift);
+			int newPosition = (position + shift); //% size(characters);
 			if (newPosition < 0) {
 				newPosition += size(characters);
 			}
-			if (newPosition > size(characters) - 1) {
+			else if (newPosition > size(characters)) {
 				signed int Size = size(characters);
 				newPosition -= Size;
 			}
@@ -143,7 +143,7 @@ std::string decrypt(std::string message, std::string characters) {
 }
 
 int main() {
-	std::string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"£$%^&* \\()-_=+[]{};:@#~,<.>/?¬'|\n";
+	std::string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\n!\"$%^&* \\()-_=+[]{};:@#~,<.>/?'|";
 	std::string input = "";
 	std::string choice = "";
 	std::cout << "Do you want to encrypt(e) or decrypt(d)? " << std::flush; std::cin >> choice;
@@ -153,7 +153,7 @@ int main() {
 		input.erase(0, 1);
 		std::cout << "Entered secret message:" << input << std::endl << std::endl;
 		std::string output = encrypt(input, characters);
-		std::cout << "Ciphertext of message is:" << output << std::endl << std::endl;
+		std::cout << "Ciphertext of message is:\n" << output << std::endl << std::endl;
 	}
 	else if (choice == "d") {
 		std::cout << "Enter ciphertext of message(press ` to complete):" << std::flush;
@@ -161,7 +161,7 @@ int main() {
 		input.erase(0, 1);
 		std::cout << "Entered ciphertext:" << input << std::endl << std::endl;
 		std::string output = decrypt(input, characters);
-		std::cout << "Plaintext of message is:" << output << std::endl << std::endl;
+		std::cout << "Plaintext of message is:\n" << output << std::endl << std::endl;
 	}
 	else {
 		std::cout << "Valid option was not entered" << std::endl;
