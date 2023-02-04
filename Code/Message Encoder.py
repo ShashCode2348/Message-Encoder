@@ -8,7 +8,7 @@ def get_task():
     return task
 
 def get_message():
-    message = inputFull('Enter the message:')
+    message = inputFull('Enter the message(press ` to complete):')
     return message
 
 #Swaps the characters
@@ -44,7 +44,8 @@ def swap_letters(message):
 #Character shifter
 def character_shifter_encrypt(message, characters):
     returnMessage = ''
-    shift = randrange(5, len(characters) - 5)
+    shift = randrange(1, len(characters) - 1)
+    print(shift)
     for character in message:
         if character in characters:
             position = characters.find(character)
@@ -55,8 +56,12 @@ def character_shifter_encrypt(message, characters):
     return returnMessage
 
 def character_shifter_decrypt(message, characters):
-    shift = int(message[-2:])
-    message.rstrip().rstrip()
+    try:
+        shift = int(message[-2:])
+    except ValueError:
+        print("Error decrypting message. Please check if you have entered all the characters from the encryted message and try again.")
+        exit()
+    message = message[:-2]
     returnMessage = ''
     shift *= -1
     for character in message:
@@ -75,7 +80,6 @@ def encrypt(message, characters):
     for counter in range(0, len(encrypt2)):
         encrypt3_list.append(encrypt2[counter])
         encrypt3_list.append(choice(characters))
-        print(encrypt3_list[-1])
     encrypt3 = ''.join(encrypt3_list)
     encrypt4 = ''.join(reversed(encrypt3))
     return encrypt4
@@ -88,32 +92,39 @@ def decrypt(message, characters):
     decrypt4 = swap_letters(decrypt3)
     return decrypt4
 
-#Gets the input for more than 1 line of text
+#Other
 def inputFull(inpText):
     input_received = True
-    input_string = ""
+    input_string = []
     print(inpText, end="")
-    while input_received:
-      new_input = input()
-      if new_input:
-        input_string += (new_input + "\n")
-      else:
-        input_received = False
-    return input_string
+    end = False
+    while True:
+        new_input = input()
+        for char in new_input:
+            if char == '`':
+                end = True
+            if not end:
+                input_string.append(char)
+        if end:
+            break
+        input_string.append("\n")
+    return "".join(input_string).rstrip()
 
 #Variables
-characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"£$%^&* \()-_=+[]{};:@#~,<.>/?¬'|\n"
-
+characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\n!\"$%^&* \()-_=+[]{};:@#~,<.>/?'|"
+print(characters)
 #Main code
 task = get_task()
-message = get_message()
 if task.lower() == 'e':
-    print('Message to encrypt is:', message, "\n")
+    message = get_message()
+    print('Message to encrypt is:' + message)
     encrypted = encrypt(message, characters)
     print('Ciphertext of the secret message is:' + encrypted)
 elif task.lower() == 'd':
-    print('Message to decrypt is:', message)
+    message = get_message()
+    print('Message to decrypt is:' + message)
     decrypted = decrypt(message, characters)
     print('Plaintext of the secret message is:' + decrypted)
 else:
+    print("Valid option was not entered")
     quit()
