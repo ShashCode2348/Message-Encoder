@@ -1,4 +1,5 @@
 from random import choice, randrange
+from sys import exit as ex
 
 #Functions
 
@@ -45,7 +46,6 @@ def swap_letters(message):
 def character_shifter_encrypt(message, characters):
     returnMessage = ''
     shift = randrange(1, len(characters) - 1)
-    print(shift)
     for character in message:
         if character in characters:
             position = characters.find(character)
@@ -60,7 +60,7 @@ def character_shifter_decrypt(message, characters):
         shift = int(message[-2:])
     except ValueError:
         print("Error decrypting message. Please check if you have entered all the characters from the encryted message and try again.")
-        exit()
+        ex()
     message = message[:-2]
     returnMessage = ''
     shift *= -1
@@ -112,7 +112,6 @@ def inputFull(inpText):
 
 #Variables
 characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\n!\"$%^&* \()-_=+[]{};:@#~,<.>/?'|"
-print(characters)
 #Main code
 task = get_task()
 if task.lower() == 'e':
@@ -126,5 +125,4 @@ elif task.lower() == 'd':
     decrypted = decrypt(message, characters)
     print('Plaintext of the secret message is:' + decrypted)
 else:
-    print("Valid option was not entered")
-    quit()
+    ex("Valid option was not entered")
